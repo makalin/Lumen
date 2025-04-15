@@ -1,4 +1,4 @@
-# 🌟 Lumen Programming Language
+# 🌙 Lumen Programming Language
 
 **Lumen** is a statically typed, compiled programming language designed for performance and flexibility. It compiles to native code via LLVM and supports WebAssembly (WASM) out of the box — making it perfect for both **system-level** and **frontend** development.
 
