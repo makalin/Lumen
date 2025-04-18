@@ -1,0 +1,6 @@
+// hello.lumen
+func main() -> int {
+    // Print a greeting
+    println("Hello, Lumen!")
+    return 0
+}

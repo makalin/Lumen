@@ -1,0 +1,21 @@
+// pi_approx.lumen
+// Approximate π via the Leibniz series and time the computation
+func main() -> int {
+    let iterations: int = 500_000    // more iterations → better accuracy
+    var sum: double = 0.0
+
+    let start: double = clock_now()
+    for i in 0..iterations {
+        // alternate signs: +1, –1, +1, –1…
+        let sign: double = if i % 2 == 0 { 1.0 } else { -1.0 }
+        // denominator = 2*i + 1
+        let denom: double = (2 * i + 1).to_double()
+        sum = sum + sign / denom
+    }
+    let pi: double = sum * 4.0
+    let elapsed: double = clock_now() - start
+
+    println("Approximate π after " + iterations.to_string() + " terms: " + pi.to_string())
+    println("Computed in " + elapsed.to_string() + " seconds")
+    return 0
+}

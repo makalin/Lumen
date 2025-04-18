@@ -1,0 +1,17 @@
+// fib.lumen
+func fib(n: int) -> int {
+    // simple Fibonacci recursion using add()
+    if n <= 1 {
+        return n
+    }
+    return add(fib(n - 1), fib(n - 2))
+}
+
+func main() -> int {
+    println("First 10 Fibonacci numbers:")
+    for i in 0..10 {
+        let f: int = fib(i)
+        println("fib(" + i.to_string() + ") = " + f.to_string())
+    }
+    return 0
+}

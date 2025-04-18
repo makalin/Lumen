@@ -1,0 +1,22 @@
+// gcd.lumen
+// Compute the greatest common divisor (GCD) using Euclid’s algorithm
+func gcd(a: int, b: int) -> int {
+    var x: int = a
+    var y: int = b
+
+    // keep taking remainders until y == 0
+    while y != 0 {
+        let temp: int = y
+        y = x % y
+        x = temp
+    }
+    return x
+}
+
+func main() -> int {
+    let a: int = 48
+    let b: int = 18
+    let result: int = gcd(a, b)
+    println("GCD of " + a.to_string() + " and " + b.to_string() + " is " + result.to_string())
+    return 0
+}

@@ -1,0 +1,27 @@
+// arithmetic_example.lumen
+func main() -> int {
+    // basic arithmetic using the stdlib
+    let a: int = 6
+    let b: int = 7
+
+    let sum: int = add(a, b)        // 6 + 7
+    println("Sum: " + sum.to_string())
+
+    let product: int = mul(a, b)    // 6 * 7
+    println("Product: " + product.to_string())
+
+    let power: int = powi(2, 10)    // 2^10
+    println("2^10 = " + power.to_string())
+
+    // timing a simple loop
+    let start: double = clock_now()
+    var total: int = 0
+    for i in 0..1000 {
+        total = add(total, i)
+    }
+    let end: double = clock_now()
+    println("Loop sum: " + total.to_string()
+        + " computed in " + (end - start).to_string() + "s")
+
+    return 0
+}

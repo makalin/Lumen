@@ -1,0 +1,15 @@
+// factorial.lumen
+func factorial(n: int) -> int {
+    // recursive factorial using mul()
+    if n <= 1 {
+        return 1
+    }
+    return mul(n, factorial(n - 1))
+}
+
+func main() -> int {
+    let num: int = 10
+    let result: int = factorial(num)
+    println("Factorial of " + num.to_string() + " is " + result.to_string())
+    return 0
+}
