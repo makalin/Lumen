@@ -12,6 +12,7 @@
 - 🌐 **WebAssembly support** for frontend or embedded use
 - 🧠 Simple, safe syntax with strong typing
 - 📚 Cross-platform **stdlib** (works on desktop and browser)
+- 🦫 **Custom compiler in Go** (lexer, parser, AST)
 - 🔧 Future plans: module system, generics, async support
 
 ---
@@ -25,6 +26,12 @@ lumen/
 │   ├── lumen_std.h         # Header file for native/WASM use
 │   └── wasm_imports.js     # JS glue for WebAssembly
 ├── main.ll                 # LLVM IR example using stdlib
+├── compiler/
+│   └── src/
+│       ├── lexer.go        # Go lexer for Lumen
+│       ├── parser.go       # Go parser for Lumen
+│       ├── ast.go          # AST node definitions
+│       └── tokens.go       # Token types and struct
 ```
 
 ---
@@ -52,16 +59,31 @@ Then load `lumen_combined.wasm` in the browser with `wasm_imports.js`.
 
 ---
 
+## 🦫 Compiler (Go)
+
+A new Lumen compiler is being developed in Go.  
+Source code is in `compiler/src/`.  
+To run linter checks:
+
+```bash
+cd compiler
+go vet ./...
+```
+
+> More build/run instructions for the Go compiler will be added as development progresses.
+
+---
+
 ## 📦 Standard Library
 
-| Function     | Description                      |
-|--------------|----------------------------------|
-| `print(msg)` | Print string to console          |
-| `println(msg)` | Print string with newline     |
-| `add(a, b)`  | Integer addition                 |
-| `mul(a, b)`  | Integer multiplication           |
-| `powi(b, e)` | Power of integers                |
-| `clock_now()`| Time in seconds (double)         |
+| Function       | Description                      |
+|----------------|----------------------------------|
+| `print(msg)`   | Print string to console          |
+| `println(msg)` | Print string with newline        |
+| `add(a, b)`    | Integer addition                 |
+| `mul(a, b)`    | Integer multiplication           |
+| `powi(b, e)`   | Power of integers                |
+| `clock_now()`  | Time in seconds (double)         |
 
 ---
 
@@ -71,7 +93,7 @@ Then load `lumen_combined.wasm` in the browser with `wasm_imports.js`.
 declare i32 @add(i32, i32)
 declare void @println(i8*)
 
-@str_result = constant [8 x i8] c"Result:\\0A\\00"
+@str_result = constant [8 x i8] c"Result:\0A\00"
 
 define i32 @main() {
 entry:
@@ -89,7 +111,7 @@ entry:
 - [x] LLVM-based native backend
 - [x] WASM backend support
 - [x] Minimal standard library
-- [ ] Custom parser + compiler in Go
+- [x] Custom parser + compiler in Go
 - [ ] Virtual DOM and frontend DSL
 - [ ] Language playground in browser
 
