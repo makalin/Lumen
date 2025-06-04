@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumen Ray Tracer Demo</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f5f5f5;
+        }
+        canvas {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        .output {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lumen Ray Tracer Demo</h1>
+        <canvas id="canvas" width="400" height="400"></canvas>
+        <div class="output" id="output">Output will appear here...</div>
+    </div>
+    <script src="raytracer.js"></script>
+</body>
+</html> 

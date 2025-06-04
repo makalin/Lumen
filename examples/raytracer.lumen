@@ -1,0 +1,76 @@
+// Ray tracer example in Lumen
+// Demonstrates structs, vectors, and basic math operations
+
+struct Vector3 {
+    x: double
+    y: double
+    z: double
+}
+
+struct Sphere {
+    center: Vector3
+    radius: double
+}
+
+struct Ray {
+    origin: Vector3
+    direction: Vector3
+}
+
+// Vector3 dot product
+func dot(a: Vector3, b: Vector3) -> double {
+    let xx: double = mul(a.x, b.x)
+    let yy: double = mul(a.y, b.y)
+    let zz: double = mul(a.z, b.z)
+    
+    let xy: double = add(xx, yy)
+    return add(xy, zz)
+}
+
+// Ray-sphere intersection
+func intersect(ray: Ray, sphere: Sphere) -> double {
+    let a: double = dot(ray.direction, ray.direction)
+    let b: double = mul(2.0, a)
+    let c: double = dot(ray.origin, ray.origin)
+    let c1: double = mul(c, -1.0)
+    let radius_squared: double = mul(sphere.radius, sphere.radius)
+    let c2: double = add(c1, radius_squared)
+    
+    let discriminant: double = mul(b, b)
+    let discriminant1: double = mul(4.0, a)
+    let discriminant2: double = mul(discriminant1, c2)
+    let discriminant3: double = add(discriminant, discriminant2)
+    
+    if discriminant3 < 0.0 {
+        return -1.0
+    }
+    
+    let t1: double = mul(b, -1.0)
+    let t2: double = sqrt(discriminant3)
+    let t3: double = add(t1, t2)
+    let t4: double = mul(2.0, a)
+    return div(t3, t4)
+}
+
+func main() -> int {
+    // Create a ray
+    let ray: Ray = Ray{
+        origin: Vector3{x: 0.0, y: 0.0, z: 0.0},
+        direction: Vector3{x: 1.0, y: 0.0, z: 0.0}
+    }
+    
+    // Create a sphere
+    let sphere: Sphere = Sphere{
+        center: Vector3{x: 5.0, y: 0.0, z: 0.0},
+        radius: 5.0
+    }
+    
+    // Calculate intersection
+    let t: double = intersect(ray, sphere)
+    
+    // Print result
+    println("Ray trace: " + t.to_string())
+    println("Done!")
+    
+    return 0
+} 
