@@ -1,67 +1,128 @@
-## Examples
+# Lumen Examples
 
-Below are a handful of illustrative Lumen programs you can find in the `examples/` directory. They demonstrate core language features, standard‑library functions, and common programming patterns.
+This directory contains various examples demonstrating Lumen's capabilities.
 
-### hello.lumen
-A minimal “Hello, world!” program that shows how to define `main()`, invoke `println()`, and return an exit code.  
-```lumen
-func main() -> int {
-    println("Hello, Lumen!")
-    return 0
-}
-```
+## Basic Examples
 
----
+- `hello.lumen` - Simple "Hello, World!" program
+- `arithmetic_example.lumen` - Basic arithmetic operations
+- `factorial.lumen` - Recursive factorial calculation
+- `fib.lumen` - Fibonacci sequence
+- `gcd.lumen` - Greatest Common Divisor
+- `pi_approx.lumen` - Pi approximation using Leibniz series
 
-### arithmetic_example.lumen
-Demonstrates basic integer arithmetic and timing via the stdlib’s `add()`, `mul()`, `powi()` and `clock_now()`:  
-- Declares and initializes variables with explicit types.  
-- Prints results of addition, multiplication, and exponentiation.  
-- Measures the runtime of a simple loop summing numbers.
+## Advanced Examples
 
----
+### Ray Tracer (`raytracer/`)
+A complete ray tracer implementation demonstrating:
+- Complex data structures (Vector3, Sphere, Ray)
+- Mathematical algorithms
+- Cross-platform compilation (native + WebAssembly)
+- Web integration with JavaScript
 
-### factorial.lumen
-Implements a recursive `factorial(n)` using `mul()`, then prints the factorial of 10. Shows:  
-- User‑defined functions with typed parameters  
-- Recursion and conditional returns  
-```lumen
-func factorial(n: int) -> int { … }
-func main() -> int { … }
-```
+**Files:**
+- `raytracer.lumen` - Lumen source code version
+- `raytracer.ll` - LLVM IR version
+- `raytracer.html` - Web interface
+- `raytracer.js` - JavaScript integration
 
----
-
-### fib.lumen
-Prints the first 10 Fibonacci numbers using a naive recursive `fib(n)` built on top of `add()`. Highlights:  
-- Recursion with multiple branches  
-- Looping with a `for i in 0..10` range  
-- String interpolation via `to_string()`
-
----
-
-### pi_approx.lumen
-Approximates π using the Leibniz series (`π = 4 · Σ ((–1)^i / (2i + 1))`) over 500 000 terms, and times the computation with `clock_now()`. Illustrates:  
-- Floating‑point arithmetic (`double`)  
-- Alternating signs via `%` and conditional expressions  
-- Performance measurement
-
----
-
-### gcd.lumen
-Calculates the greatest common divisor of two integers (`48` and `18`) using Euclid’s algorithm with a `while` loop and the modulus operator `%`. Demonstrates:  
-- Mutable variables (`var`)  
-- Looping until a condition is met  
-- Simple imperative control flow
-
----
-
-Feel free to run any of these with the hypothetical compiler toolchain:
-
+**Build:**
 ```bash
-lumenc examples/<name>.lumen -o <name>.ll
-llc <name>.ll -filetype=obj -o <name>.o
-clang <name>.o lumen_std.o -o <name> && ./<name>
+# Native compilation
+lumen raytracer.lumen -o raytracer
+./raytracer
+
+# WebAssembly
+lumen raytracer.lumen -target wasm -o raytracer.wasm
+# Serve with HTTP server and open raytracer.html
 ```
 
-Each example is self‑contained and showcases a different aspect of Lumen’s syntax and standard library.
+### Virtual DOM (`virtual_dom/`)
+A Virtual DOM implementation for frontend development:
+- Declarative UI components
+- Efficient diffing algorithm
+- HTML generation
+- Component system
+
+**Files:**
+- `vdom.lumen` - Virtual DOM implementation
+
+**Features:**
+- VNode structure for representing DOM elements
+- Diff algorithm for efficient updates
+- Component-based architecture
+- String rendering for HTML output
+
+### Language Playground (`playground/`)
+An interactive web-based playground for writing and running Lumen code:
+- Syntax-highlighted code editor
+- Real-time compilation simulation
+- Built-in examples
+- Modern web interface
+
+**Files:**
+- `playground.html` - Main playground interface
+- `playground.js` - Playground functionality
+
+**Features:**
+- CodeMirror-based editor with syntax highlighting
+- Multiple example programs
+- Simulated compilation and execution
+- Error handling and output display
+- Keyboard shortcuts (Ctrl+Enter to run)
+
+**Usage:**
+1. Open `playground.html` in a web browser
+2. Write Lumen code in the editor
+3. Click "Run" or press Ctrl+Enter to execute
+4. View output in the right panel
+5. Try different examples from the dropdown
+
+## HTTP Server Example
+
+See `http_server/` directory for a high-performance HTTP server implementation.
+
+## Building and Running
+
+### Prerequisites
+- LLVM toolchain
+- Clang compiler
+- Emscripten (for WebAssembly)
+
+### Native Compilation
+```bash
+lumen example.lumen -o example
+./example
+```
+
+### WebAssembly Compilation
+```bash
+lumen example.lumen -target wasm -o example.wasm
+```
+
+### Using the HTTP Server
+```bash
+cd http_server
+llc server.ll -filetype=obj -o server.o
+clang server.o -o http_server
+./http_server
+```
+
+## Contributing
+
+When adding new examples:
+1. Include both `.lumen` and `.ll` versions if applicable
+2. Add comprehensive documentation
+3. Include build instructions
+4. Test both native and WebAssembly targets
+5. Update this README with new examples
+
+## Future Examples
+
+Planned examples include:
+- [ ] WebSocket client/server
+- [ ] Database integration
+- [ ] Graphics and animation
+- [ ] Machine learning algorithms
+- [ ] Network protocols
+- [ ] Game development

@@ -13,6 +13,9 @@
 - 🧠 Simple, safe syntax with strong typing
 - 📚 Cross-platform **stdlib** (works on desktop and browser)
 - 🦫 **Custom compiler in Go** (lexer, parser, AST)
+- 🎨 **Virtual DOM** for frontend development
+- 🎮 **Interactive playground** for learning and testing
+- 🖥️ **High-performance HTTP server** with event-driven architecture
 - 🔧 Future plans: module system, generics, async support
 
 ---
@@ -26,12 +29,53 @@ lumen/
 │   ├── lumen_std.h         # Header file for native/WASM use
 │   └── wasm_imports.js     # JS glue for WebAssembly
 ├── main.ll                 # LLVM IR example using stdlib
+├── examples/
+│   ├── hello.lumen         # Basic "Hello, World!" example
+│   ├── arithmetic_example.lumen  # Arithmetic operations
+│   ├── factorial.lumen     # Recursive factorial
+│   ├── fib.lumen           # Fibonacci sequence
+│   ├── gcd.lumen           # Greatest Common Divisor
+│   ├── pi_approx.lumen     # Pi approximation
+│   ├── raytracer/          # 3D ray tracer (native + WASM)
+│   │   ├── raytracer.lumen # Lumen source version
+│   │   ├── raytracer.ll    # LLVM IR version
+│   │   ├── raytracer.html  # Web interface
+│   │   └── raytracer.js    # JavaScript integration
+│   ├── virtual_dom/        # Virtual DOM implementation
+│   │   └── vdom.lumen      # Frontend framework
+│   ├── playground/         # Interactive language playground
+│   │   ├── playground.html # Web-based code editor
+│   │   └── playground.js   # Playground functionality
+│   └── http_server/        # High-performance HTTP server
+│       ├── server.ll       # LLVM IR server implementation
+│       └── README.md       # Server documentation
 ├── compiler/
 │   └── src/
 │       ├── lexer.go        # Go lexer for Lumen
 │       ├── parser.go       # Go parser for Lumen
 │       ├── ast.go          # AST node definitions
 │       └── tokens.go       # Token types and struct
+```
+
+---
+
+## 🎮 Quick Start
+
+### Try the Playground
+Open `examples/playground/playground.html` in your browser to write and run Lumen code interactively!
+
+### Run Examples
+```bash
+# Basic examples
+lumen examples/hello.lumen -o hello
+./hello
+
+# Advanced examples
+lumen examples/raytracer/raytracer.lumen -o raytracer
+./raytracer
+
+# WebAssembly
+lumen examples/raytracer/raytracer.lumen -target wasm -o raytracer.wasm
 ```
 
 ---
@@ -82,27 +126,118 @@ go vet ./...
 | `println(msg)` | Print string with newline        |
 | `add(a, b)`    | Integer addition                 |
 | `mul(a, b)`    | Integer multiplication           |
+| `div(a, b)`    | Division (integer/double)        |
+| `sub(a, b)`    | Subtraction                      |
+| `mod(a, b)`    | Modulo operation                 |
 | `powi(b, e)`   | Power of integers                |
+| `sqrt(x)`      | Square root                      |
 | `clock_now()`  | Time in seconds (double)         |
 
 ---
 
-## ✨ Example LLVM IR
+## 🎨 Advanced Features
 
-```llvm
-declare i32 @add(i32, i32)
-declare void @println(i8*)
+### Virtual DOM
+Build declarative UI components with efficient diffing:
 
-@str_result = constant [8 x i8] c"Result:\0A\00"
+```lumen
+struct VNode {
+    tag: string
+    props: Map<string, string>
+    children: Array<VNode>
+    text: string
+}
 
-define i32 @main() {
-entry:
-  %sum = call i32 @add(i32 3, i32 4)
-  %msg_ptr = getelementptr [8 x i8], [8 x i8]* @str_result, i32 0, i32 0
-  call void @println(i8* %msg_ptr)
-  ret i32 0
+func create_element(tag: string, props: Map<string, string>, children: Array<VNode>) -> VNode {
+    return VNode{tag: tag, props: props, children: children, text: ""}
 }
 ```
+
+### Ray Tracer
+3D graphics with cross-platform compilation:
+
+```lumen
+struct Vector3 {
+    x: double
+    y: double
+    z: double
+}
+
+struct Sphere {
+    center: Vector3
+    radius: double
+}
+
+func intersect(ray: Ray, sphere: Sphere) -> double {
+    // Ray-sphere intersection algorithm
+}
+```
+
+### HTTP Server
+High-performance event-driven server:
+
+```bash
+cd examples/http_server
+llc server.ll -filetype=obj -o server.o
+clang server.o -o http_server
+./http_server
+```
+
+---
+
+## ✨ Example Programs
+
+### Hello World
+```lumen
+func main() -> int {
+    println("Hello, Lumen!")
+    return 0
+}
+```
+
+### Fibonacci
+```lumen
+func fib(n: int) -> int {
+    if n <= 1 {
+        return n
+    }
+    return add(fib(sub(n, 1)), fib(sub(n, 2)))
+}
+
+func main() -> int {
+    println("Fibonacci(10) = " + fib(10).to_string())
+    return 0
+}
+```
+
+### Virtual DOM Component
+```lumen
+struct Counter {
+    count: int
+}
+
+func render_counter(counter: Counter) -> VNode {
+    let button_props = Map<string, string>{"onclick": "increment()"}
+    let count_text = create_text_node("Count: " + counter.count.to_string())
+    return create_element("div", Map<string, string>{}, Array<VNode>{count_text})
+}
+```
+
+---
+
+## 🌐 Web Development
+
+### Playground
+- Interactive code editor with syntax highlighting
+- Real-time compilation simulation
+- Built-in examples and tutorials
+- Error handling and output display
+
+### WebAssembly Integration
+- Compile Lumen to WASM for browser execution
+- JavaScript bindings for DOM manipulation
+- Canvas-based graphics and animations
+- Cross-browser compatibility
 
 ---
 
@@ -112,8 +247,27 @@ entry:
 - [x] WASM backend support
 - [x] Minimal standard library
 - [x] Custom parser + compiler in Go
-- [ ] Virtual DOM and frontend DSL
-- [ ] Language playground in browser
+- [x] Virtual DOM and frontend DSL
+- [x] Language playground in browser
+- [x] High-performance HTTP server
+- [x] 3D graphics (ray tracer)
+- [ ] Module system
+- [ ] Generics support
+- [ ] Async/await
+- [ ] Package manager
+- [ ] IDE integration
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! See `examples/README.md` for guidelines on adding new examples.
+
+### Development Areas
+- **Compiler**: Go-based lexer, parser, and code generation
+- **Standard Library**: Cross-platform utilities and functions
+- **Examples**: Demonstrations of language features
+- **Documentation**: Tutorials and API references
 
 ---
 

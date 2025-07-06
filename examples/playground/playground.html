@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumen Language Playground</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #2d2d30;
+            padding: 1rem;
+            border-bottom: 1px solid #3e3e42;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #007acc;
+            font-size: 1.5rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #005a9e;
+        }
+
+        .btn:disabled {
+            background: #3e3e42;
+            cursor: not-allowed;
+        }
+
+        .main {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+
+        .editor-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-header {
+            background: #2d2d30;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #3e3e42;
+            font-size: 0.9rem;
+            color: #cccccc;
+        }
+
+        .CodeMirror {
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .output-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #3e3e42;
+        }
+
+        .output-header {
+            background: #2d2d30;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid #3e3e42;
+            font-size: 0.9rem;
+            color: #cccccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .output-content {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            background: #1e1e1e;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .output-line {
+            margin-bottom: 0.5rem;
+            white-space: pre-wrap;
+        }
+
+        .output-error {
+            color: #f48771;
+        }
+
+        .output-success {
+            color: #4ec9b0;
+        }
+
+        .examples {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #2d2d30;
+            border: 1px solid #3e3e42;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 1000;
+            min-width: 200px;
+        }
+
+        .example-item {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid #3e3e42;
+        }
+
+        .example-item:hover {
+            background: #3e3e42;
+        }
+
+        .example-item:last-child {
+            border-bottom: none;
+        }
+
+        .status {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .loading {
+            color: #007acc;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌙 Lumen Playground</h1>
+        <div class="controls">
+            <div class="dropdown">
+                <button class="btn" id="examples-btn">Examples</button>
+                <div class="examples" id="examples-menu" style="display: none;">
+                    <div class="example-item" data-example="hello">Hello World</div>
+                    <div class="example-item" data-example="fibonacci">Fibonacci</div>
+                    <div class="example-item" data-example="factorial">Factorial</div>
+                    <div class="example-item" data-example="gcd">GCD</div>
+                    <div class="example-item" data-example="pi">Pi Approximation</div>
+                    <div class="example-item" data-example="vdom">Virtual DOM</div>
+                </div>
+            </div>
+            <button class="btn" id="run-btn">▶ Run</button>
+            <button class="btn" id="clear-btn">Clear</button>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="editor-panel">
+            <div class="editor-header">
+                <span>Code Editor</span>
+                <span class="status" id="status">Ready</span>
+            </div>
+            <textarea id="editor"></textarea>
+        </div>
+        <div class="output-panel">
+            <div class="output-header">
+                <span>Output</span>
+                <button class="btn" id="clear-output-btn">Clear</button>
+            </div>
+            <div class="output-content" id="output"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+    <script src="playground.js"></script>
+</body>
+</html> 
